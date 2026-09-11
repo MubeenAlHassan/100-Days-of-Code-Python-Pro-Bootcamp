@@ -1,5 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
 
 # Form Links
 # https://forms.gle/gJwFFDrKRXUugiC37
@@ -13,9 +17,7 @@ html = response.content
 soup = BeautifulSoup(html, 'html.parser')
 
 property_cards = soup.find_all('article', attrs={"data-test" : "property-card"})
-
 for card in property_cards:
-
 
     link = card.find('a', class_='StyledPropertyCardDataArea-anchor')
     raw_address = card.find('address').text
@@ -25,3 +27,6 @@ for card in property_cards:
     price = raw_price.replace('+/mo', '')
 
     property_details.append([address, price, link['href']])
+
+
+driver = webdriver.Chrome()
